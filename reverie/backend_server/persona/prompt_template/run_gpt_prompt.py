@@ -38,6 +38,7 @@ def get_random_alphanumeric(i=6, j=6):
 ##############################################################################
 
 
+# 각 페르소나의 프롬프트를 받아서, 아침 기상 시각을 구해주는 LLM 함수
 def run_gpt_prompt_wake_up_hour(persona, test_input=None, verbose=False):
     """
     Given the persona, returns an integer that indicates the hour when the
@@ -89,6 +90,7 @@ def run_gpt_prompt_wake_up_hour(persona, test_input=None, verbose=False):
     prompt = generate_prompt(prompt_input, prompt_template)
     fail_safe = get_fail_safe()
 
+    ## 기상 시각만을 output에 리턴
     output = safe_generate_response(
         prompt, gpt_param, 5, fail_safe, __func_validate, __func_clean_up
     )
