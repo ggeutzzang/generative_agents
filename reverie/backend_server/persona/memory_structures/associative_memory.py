@@ -265,16 +265,16 @@ class AssociativeMemory:
 
     def add_thought(
         self,
-        created,
-        expiration,
-        s,
-        p,
-        o,
-        description,
-        keywords,
-        poignancy,
-        embedding_pair,
-        filling,
+        created, # 노드 생성
+        expiration, # 노드 만료
+        s, #주제
+        p, #동사
+        o, #목적어
+        description, # 노드 설명
+        keywords, # 노드 연관 키워드
+        poignancy, # 노드 중요성 또는 감동 정도
+        embedding_pair, # 임베딩 키와 관련된 벡터를 포함하는 튜플
+        filling, # 추가 정보 포함
     ):
         # Setting up the node ID and counts.
         node_count = len(self.id_to_node.keys()) + 1
@@ -289,6 +289,7 @@ class AssociativeMemory:
             pass
 
         # Creating the <ConceptNode> object.
+        ## s, p, o는 각각 주제(subject), 술어(predicate), 목적어(object)를 나타냅니다.
         node = ConceptNode(
             node_id,
             node_count,
@@ -308,6 +309,7 @@ class AssociativeMemory:
         )
 
         # Creating various dictionary cache for fast access.
+        ## [0:0] 슬라이싱은 리스트의 맨 앞에 하나 이상의 요소를 효율적으로 삽입하는 데 사용
         self.seq_thought[0:0] = [node]
         keywords = [i.lower() for i in keywords]
         for kw in keywords:

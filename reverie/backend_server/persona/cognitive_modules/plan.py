@@ -562,7 +562,7 @@ def _long_term_planning(persona, new_day):
     # which is a list of todo items with a time duration (in minutes) that
     # add up to 24 hours.
     persona.scratch.f_daily_schedule = generate_hourly_schedule(persona, wake_up_hour)
-    persona.scratch.f_daily_schedule_hourly_org = persona.scratch.f_daily_schedule[:]
+    persona.scratch.f_daily_schedule_hourly_org = persona.scratch.f_daily_schedule[:] # 복사
 
     # Added March 4 -- adding plan to the memory.
     thought = f"This is {persona.scratch.name}'s plan for {persona.scratch.curr_time.strftime('%A %B %d')}:"
@@ -636,6 +636,7 @@ def _determine_action(persona, maze):
     # chunk actions.
     # Importantly, we try to decompose at least two hours worth of schedule at
     # any given point.
+    ## 현재 시간에 해당하는 일일 스케줄 인덱스를 가져온다
     curr_index = persona.scratch.get_f_daily_schedule_index()
     curr_index_60 = persona.scratch.get_f_daily_schedule_index(advance=60)
 

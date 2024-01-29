@@ -210,6 +210,7 @@ class Persona:
             "%A %B %d"
         ):
             new_day = "New day"
+        # Scratch에 curr_time을 업데이트 함
         self.scratch.curr_time = curr_time
 
         # Main cognitive sequence begins here.

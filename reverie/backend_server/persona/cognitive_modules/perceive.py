@@ -47,12 +47,16 @@ def perceive(persona, maze):
     # PERCEIVE SPACE
     # We get the nearby tiles given our current tile and the persona's vision
     # radius.
+    ## 근접 타일 탐색
     nearby_tiles = maze.get_nearby_tiles(
         persona.scratch.curr_tile, persona.scratch.vision_r
     )
 
     # We then store the perceived space. Note that the s_mem of the persona is
     # in the form of a tree constructed using dictionaries.
+    ## 근접 공간에 대한 정보 저장
+    ## s_mem.tree가 중요
+    ## 'world','sector','arena','game_object' 등의 계층적 구조를 dict 형태의 tree로 표현
     for i in nearby_tiles:
         i = maze.access_tile(i)
         if i["world"]:
