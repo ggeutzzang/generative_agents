@@ -442,6 +442,13 @@ class Scratch:
         return self.daily_plan_req
 
     def get_str_curr_date_str(self):
+        """
+        strftime(): 날짜와 시간을 다양한 형식으로 표현
+        %A: 요일의 전체 이름을 나타냅니다 (예: Monday, Tuesday).
+        %B: 월의 전체 이름을 나타냅니다 (예: January, February).
+        %d: 월의 일을 두 자리 숫자로 나타냅니다 (예: 01-31).
+        예를 들어, 2024년 1월 26일의 경우 이 구문은 "Saturday January 26"와 같은 형식으로 날짜를 문자열로 변환할 것입니다.
+        """
         return self.curr_time.strftime("%A %B %d")
 
     def get_curr_event(self):

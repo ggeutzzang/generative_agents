@@ -128,6 +128,7 @@ def generate_hourly_schedule(persona, wake_up_hour):
         n_m1_activity_set = set(n_m1_activity)
         if len(n_m1_activity_set) < 5:
             n_m1_activity = []
+            # 시간대별로 스케쥴링 반복 호출 (24시간)
             for count, curr_hour_str in enumerate(hour_str):
                 if wake_up_hour > 0:
                     n_m1_activity += ["sleeping"]

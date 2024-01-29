@@ -28,6 +28,10 @@ def get_random_alphanumeric(i=6, j=6):
     OUTPUT:
       an alpha numeric str with the length of somewhere between i and j.
     """
+
+    # string.ascii_letters는 모든 영문 대소문자를 포함하는 문자열입니다 ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ').
+    # string.digits는 모든 숫자를 포함하는 문자열입니다 ('0123456789').
+    # random.choices(population, k=n) 함수는 population에서 n개의 원소를 임의로 선택하여 리스트로 반환합니다.
     k = random.randint(i, j)
     x = "".join(random.choices(string.ascii_letters + string.digits, k=k))
     return x
@@ -196,6 +200,8 @@ def run_gpt_prompt_generate_hourly_schedule(
     test_input=None,
     verbose=False,
 ):
+    ## 아래 함수는 인자값을 조합해, prompt_input 문자열을 생성하는 것이 목표임
+    # p_f_ds_hourly_org는 이미 기존에 확정된 시간대별 스케쥴링 액티비티가 들어있는 리스트임.
     def create_prompt_input(
         persona,
         curr_hour_str,
@@ -210,7 +216,7 @@ def run_gpt_prompt_generate_hourly_schedule(
         for i in hour_str:
             schedule_format += f"[{persona.scratch.get_str_curr_date_str()} -- {i}]"
             schedule_format += f" Activity: [Fill in]\n"
-        schedule_format = schedule_format[:-1]
+        schedule_format = schedule_format[:-1]  ## 시간대 스케쥴의 기본 포맷 문자열 형태를 생성
 
         intermission_str = f"Here the originally intended hourly breakdown of"
         intermission_str += f" {persona.scratch.get_str_firstname()}'s schedule today: "
@@ -218,6 +224,7 @@ def run_gpt_prompt_generate_hourly_schedule(
             intermission_str += f"{str(count+1)}) {i}, "
         intermission_str = intermission_str[:-2]
 
+        # 스케쥴 포맷에 맞게, 인자로 넘어온 기존 스케쥴 리스트의 내용을 문자열로 만듬
         prior_schedule = ""
         if p_f_ds_hourly_org:
             prior_schedule = "\n"
@@ -228,6 +235,7 @@ def run_gpt_prompt_generate_hourly_schedule(
                 prior_schedule += f" {persona.scratch.get_str_firstname()}"
                 prior_schedule += f" is {i}\n"
 
+        # prompt_ending이 결국, LLM을 통해 얻고 싶은 다음 시간대의 스케쥴링 정보
         prompt_ending = f"[(ID:{get_random_alphanumeric()})"
         prompt_ending += f" {persona.scratch.get_str_curr_date_str()}"
         prompt_ending += f" -- {curr_hour_str}] Activity:"
@@ -246,7 +254,7 @@ def run_gpt_prompt_generate_hourly_schedule(
             prompt_input += [intermission2]
         else:
             prompt_input += [""]
-        prompt_input += [prompt_ending]
+        prompt_input += [prompt_ending] # prompt_ending에 스케쥴 생성을 원하는 시간대가 들어 있음
 
         return prompt_input
 
