@@ -89,6 +89,8 @@ def perceive(persona, maze):
     percept_events_list = []
     # First, we put all events that are occuring in the nearby tiles into the
     # percept_events_list
+
+    ## 페르소나 주변의 타일에서 "arena" 레벨이 같은 타일 중 event가 있는 타일의 거리(dist)와 이벤트를 리스트에 저장
     for tile in nearby_tiles:
         tile_details = maze.access_tile(tile)
         if tile_details["events"]:
@@ -108,6 +110,7 @@ def perceive(persona, maze):
     # We sort, and perceive only persona.scratch.att_bandwidth of the closest
     # events. If the bandwidth is larger, then it means the persona can perceive
     # more elements within a small area.
+    ## 거리별로 이벤트 리스트를 저장 후, att_bandwidth (3개)만 perceived_events에 저장
     percept_events_list = sorted(percept_events_list, key=itemgetter(0))
     perceived_events = []
     for dist, event in percept_events_list[: persona.scratch.att_bandwidth]:
@@ -131,7 +134,7 @@ def perceive(persona, maze):
         # something new that is happening (that is, p_event not in latest_events),
         # then we add that event to the a_mem and return it.
         latest_events = persona.a_mem.get_summarized_latest_events(
-            persona.scratch.retention
+            persona.scratch.retention # 8
         )
         if p_event not in latest_events:
             # We start by managing keywords.
@@ -145,7 +148,7 @@ def perceive(persona, maze):
             keywords.update([sub, obj])
 
             # Get event embedding
-            desc_embedding_in = desc
+            desc_embedding_in = desc # event description에 대한 임베딩
             if "(" in desc:
                 desc_embedding_in = (
                     desc_embedding_in.split("(")[1].split(")")[0].strip()
@@ -157,6 +160,7 @@ def perceive(persona, maze):
             event_embedding_pair = (desc_embedding_in, event_embedding)
 
             # Get event poignancy.
+            ## 해당 페르소나에 기반한 이벤트의 중요도를 1~10점으로 구함 (LLM 이용)
             event_poignancy = generate_poig_score(persona, "event", desc_embedding_in)
 
             # If we observe the persona's self chat, we include that in the memory
