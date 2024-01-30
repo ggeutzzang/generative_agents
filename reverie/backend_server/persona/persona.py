@@ -214,7 +214,7 @@ class Persona:
         self.scratch.curr_time = curr_time
 
         # Main cognitive sequence begins here.
-        perceived = self.perceive(maze)
+        perceived = self.perceive(maze) ## 주변의 이벤트들을 리턴
         retrieved = self.retrieve(perceived)
         plan = self.plan(maze, personas, new_day, retrieved)
         self.reflect()
